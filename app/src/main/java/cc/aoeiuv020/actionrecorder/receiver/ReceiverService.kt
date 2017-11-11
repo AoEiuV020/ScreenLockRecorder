@@ -3,12 +3,14 @@ package cc.aoeiuv020.actionrecorder.receiver
 import android.app.Service
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Handler
 import android.os.IBinder
 import cc.aoeiuv020.actionrecorder.R
 import cc.aoeiuv020.actionrecorder.util.cancel
 import cc.aoeiuv020.actionrecorder.util.notify
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
+import java.util.concurrent.TimeUnit
 
 /**
  *
@@ -18,11 +20,21 @@ class ReceiverService : Service(), AnkoLogger {
     companion object {
         private val NOTIFICATION_ID = ReceiverService::class.java.simpleName.hashCode()
     }
+
     private lateinit var receiver: AllReceiver
+    private val handler = Handler()
+    private val notifyRunnable = object : Runnable {
+        override fun run() {
+            notify(NOTIFICATION_ID, getString(R.string.recording), noCancel = true)
+            // 监控通知每分钟刷新一次，
+            handler.postDelayed(this, TimeUnit.MINUTES.toMillis(1))
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
         debug { "onCreate" }
-        notify(NOTIFICATION_ID, getString(R.string.recording), noCancel = true)
+        handler.post(notifyRunnable)
         receiver = AllReceiver()
         val filter = IntentFilter()
         filter.addAction(Intent.ACTION_SCREEN_OFF)
@@ -43,6 +55,7 @@ class ReceiverService : Service(), AnkoLogger {
     override fun onDestroy() {
         debug { "onDestroy" }
         unregisterReceiver(receiver)
+        handler.removeCallbacks(notifyRunnable)
         cancel(NOTIFICATION_ID)
         super.onDestroy()
     }
