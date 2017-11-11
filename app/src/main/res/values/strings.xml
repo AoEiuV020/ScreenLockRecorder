@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">行为记录仪</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="finish">Finish</string>
+    <string name="recording">监控中</string>
 </resources>
