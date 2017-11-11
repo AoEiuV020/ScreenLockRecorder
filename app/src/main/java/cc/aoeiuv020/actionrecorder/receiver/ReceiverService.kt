@@ -15,11 +15,14 @@ import org.jetbrains.anko.debug
  * Created by AoEiuV020 on 2017.11.11-21:26:39.
  */
 class ReceiverService : Service(), AnkoLogger {
+    companion object {
+        private val NOTIFICATION_ID = ReceiverService::class.java.simpleName.hashCode()
+    }
     private lateinit var receiver: AllReceiver
     override fun onCreate() {
         super.onCreate()
         debug { "onCreate" }
-        notify(0, getString(R.string.recording), noCancel = true)
+        notify(NOTIFICATION_ID, getString(R.string.recording), noCancel = true)
         receiver = AllReceiver()
         val filter = IntentFilter()
         filter.addAction(Intent.ACTION_SCREEN_OFF)
@@ -40,7 +43,7 @@ class ReceiverService : Service(), AnkoLogger {
     override fun onDestroy() {
         debug { "onDestroy" }
         unregisterReceiver(receiver)
-        cancel(0)
+        cancel(NOTIFICATION_ID)
         super.onDestroy()
     }
 }

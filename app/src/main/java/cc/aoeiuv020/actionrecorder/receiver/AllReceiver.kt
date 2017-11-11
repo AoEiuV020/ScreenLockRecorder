@@ -14,6 +14,6 @@ import org.jetbrains.anko.debug
 class AllReceiver : BroadcastReceiver(), AnkoLogger {
     override fun onReceive(context: Context, intent: Intent) {
         debug { intent.action }
-        context.notify(1, intent.action)
+        context.notify(intent.action.hashCode(), intent.action)
     }
 }
