@@ -11,7 +11,7 @@ import android.arch.persistence.room.Query
 @Dao
 interface ActionDAO {
     @Query("SELECT * FROM action")
-    fun loadAllUsers(): Array<Action>
+    fun loadAllUsers(): List<Action>
 
     @Insert
     fun insert(action: Action)

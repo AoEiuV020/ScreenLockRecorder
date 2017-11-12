@@ -25,5 +25,9 @@ class MainActivity : AppCompatActivity() {
         btFinish.setOnClickListener {
             finish()
         }
+
+        btData.setOnClickListener {
+            DataActivity.start(this)
+        }
     }
 }

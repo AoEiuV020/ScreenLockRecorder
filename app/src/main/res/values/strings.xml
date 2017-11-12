@@ -4,4 +4,6 @@
     <string name="stop">Stop</string>
     <string name="finish">Finish</string>
     <string name="recording">监控中</string>
+    <string name="data">Data</string>
+    <string name="refresh">Refresh</string>
 </resources>
