@@ -11,6 +11,7 @@ buildscript {
         anko_version = '0.10.1'
         junit_version = '4.12'
         constraint_layout_version = '1.0.2'
+        architecture_components_version = '1.0.0'
     }
     repositories {
         google()
