@@ -11,6 +11,7 @@ import cc.aoeiuv020.actionrecorder.util.cancel
 import cc.aoeiuv020.actionrecorder.util.notify
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
+import java.lang.reflect.Modifier
 import java.util.concurrent.TimeUnit
 
 /**
@@ -38,8 +39,13 @@ class ReceiverService : Service(), AnkoLogger {
         handler.post(notifyRunnable)
         receiver = AllReceiver()
         val filter = IntentFilter()
-        filter.addAction(Intent.ACTION_SCREEN_OFF)
-        filter.addAction(Intent.ACTION_SCREEN_ON)
+        Intent::class.java.fields.filter {
+            val m = it.modifiers
+            val flag = Modifier.STATIC or Modifier.PUBLIC or Modifier.FINAL
+            m and flag == flag && it.type == String::class.java && it.name.startsWith("ACTION_")
+        }.forEach {
+            filter.addAction(it.get(null) as String)
+        }
         registerReceiver(receiver, filter)
     }
 
