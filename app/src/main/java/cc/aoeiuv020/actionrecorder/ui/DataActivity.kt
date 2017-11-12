@@ -19,6 +19,7 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class DataActivity : AppCompatActivity() {
     companion object {
@@ -53,7 +54,10 @@ class DataActivity : AppCompatActivity() {
     private fun refresh() {
         swipeRefresh.isRefreshing = true
         doAsync {
-            val actions = App.database.actionDao().loadAllUsers()
+            // 加载三小时内的数据，
+            val now = System.currentTimeMillis()
+            val from = now - TimeUnit.HOURS.toMillis(3)
+            val actions = App.database.actionDao().getActionFrom(from)
             adapter.setData(actions)
             recyclerView.post {
                 recyclerView.smoothScrollToPosition(adapter.itemCount)

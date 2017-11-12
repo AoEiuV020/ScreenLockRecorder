@@ -11,7 +11,10 @@ import android.arch.persistence.room.Query
 @Dao
 interface ActionDAO {
     @Query("SELECT * FROM action")
-    fun loadAllUsers(): List<Action>
+    fun getAllAction(): List<Action>
+
+    @Query("select * from action where time >= :from")
+    fun getActionFrom(from: Long): List<Action>
 
     @Insert
     fun insert(action: Action)
