@@ -1,10 +1,10 @@
-package cc.aoeiuv020.actionrecorder.main
+package cc.aoeiuv020.actionrecorder.ui
 
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import cc.aoeiuv020.actionrecorder.R
-import cc.aoeiuv020.actionrecorder.receiver.ReceiverService
+import cc.aoeiuv020.actionrecorder.service.ReceiverService
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startService

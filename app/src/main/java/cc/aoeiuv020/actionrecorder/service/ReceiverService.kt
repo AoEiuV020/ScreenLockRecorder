@@ -1,4 +1,4 @@
-package cc.aoeiuv020.actionrecorder.receiver
+package cc.aoeiuv020.actionrecorder.service
 
 import android.app.Service
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.content.IntentFilter
 import android.os.Handler
 import android.os.IBinder
 import cc.aoeiuv020.actionrecorder.R
+import cc.aoeiuv020.actionrecorder.receiver.AllReceiver
 import cc.aoeiuv020.actionrecorder.util.cancel
 import cc.aoeiuv020.actionrecorder.util.notify
 import org.jetbrains.anko.AnkoLogger
@@ -13,7 +14,7 @@ import org.jetbrains.anko.debug
 import java.util.concurrent.TimeUnit
 
 /**
- *
+ * 维持广播接收器的服务，
  * Created by AoEiuV020 on 2017.11.11-21:26:39.
  */
 class ReceiverService : Service(), AnkoLogger {
