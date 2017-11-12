@@ -58,11 +58,11 @@ class DataActivity : AppCompatActivity() {
             val now = System.currentTimeMillis()
             val from = now - TimeUnit.HOURS.toMillis(3)
             val actions = App.database.actionDao().getActionFrom(from)
-            adapter.setData(actions)
-            recyclerView.post {
-                recyclerView.smoothScrollToPosition(adapter.itemCount)
-            }
             uiThread {
+                adapter.setData(actions)
+                recyclerView.post {
+                    recyclerView.smoothScrollToPosition(adapter.itemCount)
+                }
                 swipeRefresh.isRefreshing = false
             }
         }
