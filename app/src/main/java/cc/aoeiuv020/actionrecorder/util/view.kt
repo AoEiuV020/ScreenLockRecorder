@@ -1,6 +1,7 @@
 package cc.aoeiuv020.actionrecorder.util
 
 import android.app.Notification
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
@@ -17,7 +18,9 @@ fun Context.notify(id: Int, text: String? = null, title: String? = null, noCance
     } else {
         R.drawable.ic_launcher_foreground
     }
-    val notification = NotificationCompat.Builder(this, "actionReceiver")
+    val channelId = "channel_default"
+    val name = "default"
+    val notification = NotificationCompat.Builder(this, channelId)
             .setContentTitle(title)
             .setContentText(text)
             .setSmallIcon(icon)
@@ -25,7 +28,14 @@ fun Context.notify(id: Int, text: String? = null, title: String? = null, noCance
     if (noCancel) {
         notification.flags = notification.flags or Notification.FLAG_NO_CLEAR
     }
-    (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(id, notification)
+    val manager = (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (manager.getNotificationChannel(channelId) == null) {
+            val channel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_DEFAULT)
+            manager.createNotificationChannel(channel)
+        }
+    }
+    manager.notify(id, notification)
 }
 
 fun Context.cancel(id: Int) {

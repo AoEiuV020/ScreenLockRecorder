@@ -1,6 +1,5 @@
 package cc.aoeiuv020.actionrecorder.ui
 
-import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import cc.aoeiuv020.actionrecorder.R
@@ -16,11 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btStart.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(intentFor<ReceiverService>())
-            } else {
-                startService<ReceiverService>()
-            }
+            startService<ReceiverService>()
         }
 
         btStop.setOnClickListener {
