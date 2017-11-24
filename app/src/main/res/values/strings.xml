@@ -1,11 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">行为记录仪</string>
+    <string name="app_name">ActionRecorder</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
     <string name="finish">Finish</string>
-    <string name="recording">监控中</string>
+    <string name="recording">Recording</string>
     <string name="data">Data</string>
     <string name="refresh">Refresh</string>
-    <string name="screen_off">关屏</string>
-    <string name="screen_on">开屏</string>
+    <string name="screen_off">Screen Off</string>
+    <string name="screen_on">Screen On</string>
 </resources>
