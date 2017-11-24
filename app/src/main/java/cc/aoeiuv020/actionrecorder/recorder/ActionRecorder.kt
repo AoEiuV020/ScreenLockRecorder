@@ -1,6 +1,8 @@
 package cc.aoeiuv020.actionrecorder.recorder
 
+import android.content.Intent
 import cc.aoeiuv020.actionrecorder.App
+import cc.aoeiuv020.actionrecorder.R
 import cc.aoeiuv020.actionrecorder.sql.Action
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
@@ -16,8 +18,13 @@ object ActionRecorder : AnkoLogger {
         BROADCAST
     }
 
+    val broadcastActionCommentMap = mapOf(
+            Intent.ACTION_SCREEN_OFF to R.string.screen_off,
+            Intent.ACTION_SCREEN_ON to R.string.screen_on
+    )
+
     fun broadcast(action: String) {
-        record(Type.BROADCAST, action)
+        record(Type.BROADCAST, action, broadcastActionCommentMap[action]?.let { App.ctx.getString(it) })
     }
 
     private fun record(type: Type, name: String, comments: String? = null) {

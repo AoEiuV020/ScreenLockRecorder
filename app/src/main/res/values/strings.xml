@@ -6,4 +6,6 @@
     <string name="recording">监控中</string>
     <string name="data">Data</string>
     <string name="refresh">Refresh</string>
+    <string name="screen_off">关屏</string>
+    <string name="screen_on">开屏</string>
 </resources>

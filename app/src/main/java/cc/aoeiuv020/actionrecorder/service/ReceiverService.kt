@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.IBinder
 import cc.aoeiuv020.actionrecorder.R
 import cc.aoeiuv020.actionrecorder.receiver.AllReceiver
+import cc.aoeiuv020.actionrecorder.recorder.ActionRecorder
 import cc.aoeiuv020.actionrecorder.util.cancel
 import cc.aoeiuv020.actionrecorder.util.notify
 import org.jetbrains.anko.AnkoLogger
@@ -38,8 +39,7 @@ class ReceiverService : Service(), AnkoLogger {
         handler.post(notifyRunnable)
         receiver = AllReceiver()
         val filter = IntentFilter()
-        listOf(Intent.ACTION_SCREEN_OFF,
-                Intent.ACTION_SCREEN_ON).forEach {
+        ActionRecorder.broadcastActionCommentMap.keys.forEach {
             filter.addAction(it)
         }
         registerReceiver(receiver, filter)

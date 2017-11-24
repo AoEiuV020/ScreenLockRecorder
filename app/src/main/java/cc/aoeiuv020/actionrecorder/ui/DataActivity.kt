@@ -11,6 +11,7 @@ import android.widget.TextView
 import cc.aoeiuv020.actionrecorder.App
 import cc.aoeiuv020.actionrecorder.R
 import cc.aoeiuv020.actionrecorder.sql.Action
+import cc.aoeiuv020.actionrecorder.util.show
 import kotlinx.android.synthetic.main.activity_data.*
 import kotlinx.android.synthetic.main.data_item.view.*
 import org.jetbrains.anko.ctx
@@ -111,6 +112,10 @@ class DataActivity : AppCompatActivity() {
             tvType.text = action.type
             tvName.text = action.name
             tvComments.text = action.comments.toString()
+            val commentsIsNull = action.comments == null
+            tvType.show(commentsIsNull)
+            tvName.show(commentsIsNull)
+            tvComments.show(!commentsIsNull)
         }
     }
 }

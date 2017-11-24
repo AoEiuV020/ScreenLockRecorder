@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package cc.aoeiuv020.actionrecorder.util
 
 import android.app.Notification
@@ -6,6 +8,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import android.support.v4.app.NotificationCompat
+import android.view.View
 import cc.aoeiuv020.actionrecorder.R
 
 /**
@@ -40,4 +43,20 @@ fun Context.notify(id: Int, text: String? = null, title: String? = null, noCance
 
 fun Context.cancel(id: Int) {
     (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(id)
+}
+
+fun View.hide() {
+    visibility = View.GONE
+}
+
+fun View.show() {
+    visibility = View.VISIBLE
+}
+
+fun View.show(show: Boolean) {
+    if (show) {
+        show()
+    } else {
+        hide()
+    }
 }
