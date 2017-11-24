@@ -1,6 +1,8 @@
 package cc.aoeiuv020.actionrecorder.ui
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -11,9 +13,11 @@ import android.widget.TextView
 import cc.aoeiuv020.actionrecorder.App
 import cc.aoeiuv020.actionrecorder.R
 import cc.aoeiuv020.actionrecorder.sql.Action
+import cc.aoeiuv020.actionrecorder.util.ignoreException
 import cc.aoeiuv020.actionrecorder.util.show
 import kotlinx.android.synthetic.main.activity_data.*
 import kotlinx.android.synthetic.main.data_item.view.*
+import kotlinx.android.synthetic.main.range_picker.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
@@ -42,9 +46,41 @@ class DataActivity : AppCompatActivity() {
         adapter = Adapter()
         recyclerView.adapter = adapter
 
+        ivRefresh.setOnClickListener {
+            refresh()
+        }
+
         swipeRefresh.setOnRefreshListener {
             refresh()
         }
+
+        val now = System.currentTimeMillis()
+        val from = now - TimeUnit.HOURS.toMillis(3)
+        val to = now
+        tvTime1.text = sdf.format(Date(from))
+        tvTime2.text = sdf.format(Date(to))
+
+        @Suppress("DEPRECATION")
+        val listener: (View) -> Unit = { view ->
+            if (view is TextView) {
+                val date = ignoreException { sdf.parse(view.text.toString()) }
+                        ?: Date()
+                DatePickerDialog(this, { _, year, month, day ->
+                    date.year = year - 1900
+                    date.month = month
+                    date.date = day
+                    view.text = sdf.format(date)
+                    TimePickerDialog(this, { _, hour, minutes ->
+                        date.hours = hour
+                        date.minutes = minutes
+                        view.text = sdf.format(date)
+                    }, date.hours, date.minutes, true).show()
+                }, date.year + 1900, date.month, date.date).show()
+            }
+        }
+
+        tvTime1.setOnClickListener(listener)
+        tvTime2.setOnClickListener(listener)
     }
 
     override fun onStart() {
@@ -55,10 +91,12 @@ class DataActivity : AppCompatActivity() {
     private fun refresh() {
         swipeRefresh.isRefreshing = true
         doAsync {
-            // 加载三小时内的数据，
             val now = System.currentTimeMillis()
-            val from = now - TimeUnit.HOURS.toMillis(3)
-            val actions = App.database.actionDao().getActionFrom(from)
+            val time1 = ignoreException { sdf.parse(tvTime1.text.toString()).time } ?: now
+            val time2 = ignoreException { sdf.parse(tvTime2.text.toString()).time } ?: now
+            val from = minOf(time1, time2)
+            val to = maxOf(time1, time2)
+            val actions = App.database.actionDao().getAction(from, to)
             uiThread {
                 adapter.setData(actions)
                 recyclerView.post {
