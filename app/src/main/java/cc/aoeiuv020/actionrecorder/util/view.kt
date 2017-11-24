@@ -19,7 +19,7 @@ fun Context.notify(id: Int, text: String? = null, title: String? = null, noCance
     val icon = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
         R.mipmap.ic_launcher_round
     } else {
-        R.drawable.ic_launcher_foreground
+        R.mipmap.ic_launcher_foreground
     }
     val channelId = "channel_default"
     val name = "default"
