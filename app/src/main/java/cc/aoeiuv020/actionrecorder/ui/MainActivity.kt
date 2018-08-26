@@ -1,6 +1,7 @@
 package cc.aoeiuv020.actionrecorder.ui
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import cc.aoeiuv020.actionrecorder.R
 import cc.aoeiuv020.actionrecorder.service.ReceiverService
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         btStart.setOnClickListener {
             startService<ReceiverService>()
+            ContextCompat.startForegroundService(this, intentFor<ReceiverService>())
         }
 
         btStop.setOnClickListener {
