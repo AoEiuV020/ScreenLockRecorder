@@ -127,7 +127,7 @@ class DataActivity : AppCompatActivity() {
             notifyDataSetChanged()
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(ctx).inflate(R.layout.data_item, parent, false)
             return ViewHolder(view)
         }
