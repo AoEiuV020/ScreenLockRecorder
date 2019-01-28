@@ -55,7 +55,7 @@ class DataActivity : AppCompatActivity() {
         }
 
         val now = System.currentTimeMillis()
-        val from = now - TimeUnit.HOURS.toMillis(3)
+        val from = now - TimeUnit.DAYS.toMillis(1)
         val to = now
         tvTime1.text = sdf.format(Date(from))
         tvTime2.text = sdf.format(Date(to))

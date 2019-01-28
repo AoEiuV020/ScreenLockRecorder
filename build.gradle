@@ -8,8 +8,8 @@ buildscript {
         compile_version = 27
         min_version = 16
         target_version = 26
-        version_code = 3
-        version_name = "1.0.0-beta2"
+        version_code = 4
+        version_name = "1.0.0-beta3"
         support_version = '27.1.1'
         kotlin_version = '1.2.40'
         anko_version = '0.10.1'
