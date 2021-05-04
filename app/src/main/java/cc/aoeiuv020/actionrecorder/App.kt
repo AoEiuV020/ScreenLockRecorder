@@ -1,7 +1,7 @@
 package cc.aoeiuv020.actionrecorder
 
 import android.app.Application
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import cc.aoeiuv020.actionrecorder.sql.Database
 
 /**

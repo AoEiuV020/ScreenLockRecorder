@@ -7,15 +7,15 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import android.support.v4.app.NotificationCompat
 import android.view.View
+import androidx.core.app.NotificationCompat
 import cc.aoeiuv020.actionrecorder.R
 
 /**
  *
  * Created by AoEiuV020 on 2017.11.11-22:10:59.
  */
-fun Context.notify(id: Int, text: String? = null, title: String? = null, noCancel: Boolean = false) {
+fun Context.notify(id: Int, text: String? = null, title: String? = null, noCancel: Boolean = false): Notification? {
     val icon = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
         R.mipmap.ic_launcher_round
     } else {
@@ -39,6 +39,7 @@ fun Context.notify(id: Int, text: String? = null, title: String? = null, noCance
         }
     }
     manager.notify(id, notification)
+    return notification
 }
 
 fun Context.cancel(id: Int) {

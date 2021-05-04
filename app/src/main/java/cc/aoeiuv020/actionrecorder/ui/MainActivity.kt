@@ -1,8 +1,8 @@
 package cc.aoeiuv020.actionrecorder.ui
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import cc.aoeiuv020.actionrecorder.R
 import cc.aoeiuv020.actionrecorder.service.ReceiverService
 import kotlinx.android.synthetic.main.activity_main.*
