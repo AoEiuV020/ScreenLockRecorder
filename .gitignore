@@ -52,4 +52,7 @@ freeline/
 freeline_project_description.json
 
 ###
-signing.properties
+/release
+/signing.properties
+/publish.properties
+class_files.txt
