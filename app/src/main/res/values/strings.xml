@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ActionRecorder</string>
+    <string name="app_name">ScreenLockRecorder</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
     <string name="finish">Finish</string>
