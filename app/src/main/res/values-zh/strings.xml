@@ -9,4 +9,5 @@
     <string name="refresh">刷新</string>
     <string name="screen_off">关屏</string>
     <string name="screen_on">开屏</string>
+    <string name="boot_completed">开机</string>
 </resources>

@@ -7,7 +7,6 @@ import cc.aoeiuv020.actionrecorder.R
 import cc.aoeiuv020.actionrecorder.service.ReceiverService
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.startService
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,7 +15,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btStart.setOnClickListener {
-            startService<ReceiverService>()
             ContextCompat.startForegroundService(this, intentFor<ReceiverService>())
         }
 

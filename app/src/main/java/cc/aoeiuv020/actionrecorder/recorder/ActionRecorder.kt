@@ -20,7 +20,8 @@ object ActionRecorder : AnkoLogger {
 
     val broadcastActionCommentMap = mapOf(
             Intent.ACTION_SCREEN_OFF to R.string.screen_off,
-            Intent.ACTION_SCREEN_ON to R.string.screen_on
+            Intent.ACTION_SCREEN_ON to R.string.screen_on,
+            Intent.ACTION_BOOT_COMPLETED to R.string.boot_completed
     )
 
     fun broadcast(action: String) {
