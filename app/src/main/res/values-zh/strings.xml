@@ -10,4 +10,5 @@
     <string name="screen_off">关屏</string>
     <string name="screen_on">开屏</string>
     <string name="boot_completed">开机</string>
+    <string name="copy_place_holder">复制: %s</string>
 </resources>

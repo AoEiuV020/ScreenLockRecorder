@@ -10,4 +10,5 @@
     <string name="screen_off">Screen Off</string>
     <string name="screen_on">Screen On</string>
     <string name="boot_completed">Boot completed</string>
+    <string name="copy_place_holder">Copy: %s</string>
 </resources>

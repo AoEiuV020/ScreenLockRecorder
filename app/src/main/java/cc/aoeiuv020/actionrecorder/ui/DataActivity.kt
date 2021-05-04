@@ -3,6 +3,8 @@ package cc.aoeiuv020.actionrecorder.ui
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.view.*
@@ -18,13 +20,11 @@ import cc.aoeiuv020.actionrecorder.util.show
 import kotlinx.android.synthetic.main.activity_data.*
 import kotlinx.android.synthetic.main.data_item.view.*
 import kotlinx.android.synthetic.main.range_picker.*
-import org.jetbrains.anko.ctx
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+
 
 class DataActivity : AppCompatActivity() {
     companion object {
@@ -34,6 +34,9 @@ class DataActivity : AppCompatActivity() {
 
         @SuppressLint("SimpleDateFormat")
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+        @SuppressLint("SimpleDateFormat")
+        val copySdf = SimpleDateFormat("HH:mm:ss")
     }
 
     private lateinit var adapter: Adapter
@@ -135,7 +138,15 @@ class DataActivity : AppCompatActivity() {
         override fun getItemCount(): Int = actions.size
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.setData(actions[position])
+            val item = actions[position]
+            holder.setData(item)
+            holder.itemView.setOnClickListener { v ->
+                val s = copySdf.format(Date(item.time))
+                val cm: ClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val mClipData = ClipData.newPlainText(item.name, s)
+                cm.setPrimaryClip(mClipData)
+                v.context.toast(v.context.getString(R.string.copy_place_holder, s))
+            }
         }
 
     }
