@@ -7,12 +7,15 @@ import androidx.core.content.ContextCompat
 import cc.aoeiuv020.actionrecorder.recorder.ActionRecorder
 import cc.aoeiuv020.actionrecorder.service.ReceiverService
 import cc.aoeiuv020.anull.notNull
+import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.intentFor
 
 class BootReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(ctx: Context, intent: Intent) {
         if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
-            ContextCompat.startForegroundService(context, context.intentFor<ReceiverService>())
+            if (ctx.defaultSharedPreferences.getBoolean("started", false)) {
+                ContextCompat.startForegroundService(ctx, ctx.intentFor<ReceiverService>())
+            }
             ActionRecorder.broadcast(intent.action.notNull())
         }
     }
