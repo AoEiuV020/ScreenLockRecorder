@@ -1,6 +1,5 @@
 package cc.aoeiuv020.actionrecorder.service
 
-import android.app.Notification
 import android.app.Service
 import android.content.Intent
 import android.content.IntentFilter
@@ -44,7 +43,7 @@ class ReceiverService : Service(), AnkoLogger {
             filter.addAction(it)
         }
         registerReceiver(receiver, filter)
-        startForeground(1, Notification())
+        startForeground(NOTIFICATION_ID, notify(NOTIFICATION_ID, getString(R.string.recording), noCancel = true))
     }
 
     override fun onBind(intent: Intent): IBinder? {

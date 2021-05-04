@@ -1,0 +1,105 @@
+name: Android CI
+env:
+    TZ: Asia/Shanghai
+
+on:
+  push:
+    tags:
+      - '*'
+    paths-ignore:
+      - '.github/workflows/*'
+      - '!.github/workflows/*main.yml'
+  pull_request:
+    paths-ignore:
+      - '.github/workflows/*'
+      - '!.github/workflows/*main.yml'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: init custom env
+      run: |
+          BUILD_NAME="${GITHUB_REPOSITORY#*/}"
+          if [[ ${GITHUB_REF} == refs/tags* ]]
+          then
+              BUILD_VERSION=${GITHUB_REF#refs/tags/}
+          else
+              BUILD_VERSION="$(date +'%Y%m%d%H%M%S')"
+          fi
+          BUILD_NAME_WITH_VERSION="$BUILD_NAME-$BUILD_VERSION"
+          echo BUILD_NAME="$BUILD_NAME" >> .custom_env
+          echo BUILD_VERSION="$BUILD_VERSION" >> .custom_env
+          echo BUILD_NAME_WITH_VERSION="$BUILD_NAME_WITH_VERSION" >> .custom_env
+          cat .custom_env
+          cat .custom_env >> $GITHUB_ENV
+    - name: upload .custom_env
+      uses: actions/upload-artifact@master
+      with:
+          name: custom_env
+          path: ./.custom_env
+    - name: clean custom env
+      run: rm .custom_env
+    - uses: actions/checkout@v2
+    - name: set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: prepare signing key
+      env:
+        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      if: ${{ env.SIGNING_KEY != '' }}
+      run: |
+        echo "${{ secrets.SIGNING_KEY }}" |base64 -d > demo.jks
+        echo storeFile=demo.jks > signing.properties
+        echo storePassword=${{ secrets.KEY_STORE_PASSWORD }} >> signing.properties
+        echo keyAlias=${{ secrets.ALIAS }} >> signing.properties
+        echo keyPassword=${{ secrets.KEY_PASSWORD }} >> signing.properties
+    - name: Build with Gradle
+      run: |
+        ./gradlew assembleRelease
+        find ./app/build/outputs/
+        mv ./app/build/outputs/apk/release/*.apk $BUILD_NAME_WITH_VERSION-android.apk
+        mv ./app/build/outputs/mapping/r8/release/mapping.txt $BUILD_NAME_WITH_VERSION-android-mapping.txt
+    - name: Upload APK
+      uses: actions/upload-artifact@master
+      with:
+        name: android-build
+        path: ${{ env.BUILD_NAME_WITH_VERSION }}-android.apk
+    - name: create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ env.BUILD_VERSION }}
+        release_name: ${{ env.BUILD_VERSION }}
+        body: ${{ github.event.commits[0].message }}
+        draft: true
+        prerelease: false
+    - name: Upload Release Asset android
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{ env.BUILD_NAME_WITH_VERSION }}-android.apk
+        asset_name: ${{ env.BUILD_NAME_WITH_VERSION }}-android.apk
+        asset_content_type: application/zip
+    - name: Upload android mapping
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{ env.BUILD_NAME_WITH_VERSION }}-android-mapping.txt
+        asset_name: ${{ env.BUILD_NAME_WITH_VERSION }}-android-mapping.txt
+        asset_content_type: text/plain
+    - name: public release
+      uses: eregon/publish-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_id: ${{ steps.create_release.outputs.id }}

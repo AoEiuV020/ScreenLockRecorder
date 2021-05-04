@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import cc.aoeiuv020.actionrecorder.recorder.ActionRecorder
+import cc.aoeiuv020.anull.notNull
 import org.jetbrains.anko.AnkoLogger
 import java.lang.reflect.Modifier
 
@@ -29,6 +30,6 @@ class AllReceiver : BroadcastReceiver(), AnkoLogger {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        ActionRecorder.broadcast(intent.action)
+        ActionRecorder.broadcast(intent.action.notNull())
     }
 }
