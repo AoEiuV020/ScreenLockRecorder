@@ -27,6 +27,7 @@ fun Context.notify(id: Int, text: String? = null, title: String? = null, noCance
             .setContentTitle(title)
             .setContentText(text)
             .setSmallIcon(icon)
+            .setSound(null)
             .build()
     if (noCancel) {
         notification.flags = notification.flags or Notification.FLAG_NO_CLEAR
