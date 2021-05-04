@@ -36,6 +36,7 @@ fun Context.notify(id: Int, text: String? = null, title: String? = null, noCance
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         if (manager.getNotificationChannel(channelId) == null) {
             val channel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_DEFAULT)
+            channel.setSound(null, null)
             manager.createNotificationChannel(channel)
         }
     }
