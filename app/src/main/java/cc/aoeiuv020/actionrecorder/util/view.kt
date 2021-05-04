@@ -5,11 +5,14 @@ package cc.aoeiuv020.actionrecorder.util
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
 import android.view.View
 import androidx.core.app.NotificationCompat
 import cc.aoeiuv020.actionrecorder.R
+import cc.aoeiuv020.actionrecorder.ui.MainActivity
+import org.jetbrains.anko.intentFor
 
 /**
  *
@@ -28,6 +31,7 @@ fun Context.notify(id: Int, text: String? = null, title: String? = null, noCance
             .setContentText(text)
             .setSmallIcon(icon)
             .setSound(null)
+            .setContentIntent(PendingIntent.getActivity(this, 1, intentFor<MainActivity>(), 0))
             .build()
     if (noCancel) {
         notification.flags = notification.flags or Notification.FLAG_NO_CLEAR
