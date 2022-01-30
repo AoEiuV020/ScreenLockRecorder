@@ -39,7 +39,7 @@ object ActionRecorder : AnkoLogger {
     private val executor: Executor = Executors.newCachedThreadPool()
     private fun save(action: Action) {
         executor.execute {
-            App.database.actionDao().insert(action)
+            App.appDatabase.actionDao().insert(action)
         }
     }
 }

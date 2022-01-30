@@ -99,7 +99,7 @@ class DataActivity : AppCompatActivity() {
             val time2 = ignoreException { sdf.parse(tvTime2.text.toString()).time } ?: now
             val from = minOf(time1, time2)
             val to = maxOf(time1, time2)
-            val actions = App.database.actionDao().getAction(from, to)
+            val actions = App.appDatabase.actionDao().getAction(from, to)
             uiThread {
                 adapter.setData(actions)
                 recyclerView.post {
