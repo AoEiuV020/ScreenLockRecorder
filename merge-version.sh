@@ -15,7 +15,7 @@ git checkout -b $branch
 git checkout master
 git merge --no-ff $branch
 git branch -d $branch
-git tag -a $versionName
+git tag $versionName
 git checkout dev
 git merge master
 
