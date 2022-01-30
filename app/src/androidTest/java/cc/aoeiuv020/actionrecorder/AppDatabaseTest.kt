@@ -5,10 +5,10 @@ import androidx.room.testing.MigrationTestHelper
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import cc.aoeiuv020.actionrecorder.helper.BatteryHelper
 import cc.aoeiuv020.actionrecorder.recorder.ActionRecorder
 import cc.aoeiuv020.actionrecorder.sql.Action
 import cc.aoeiuv020.actionrecorder.sql.AppDatabase
-import cc.aoeiuv020.actionrecorder.util.BatteryUtil
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -31,7 +31,7 @@ class AppDatabaseTest {
             type = ActionRecorder.Type.BROADCAST.name,
             name = Intent.ACTION_SCREEN_ON,
             comments = "ON",
-            battery = BatteryUtil.getElectricity(InstrumentationRegistry.getInstrumentation().targetContext)
+            battery = BatteryHelper.getElectricity(InstrumentationRegistry.getInstrumentation().targetContext)
         )
         val db1 = helper.createDatabase(TEST_DB, 2)
         db1.execSQL("INSERT INTO action (id, time, type, name, comments, battery) VALUES ('${item.id}', '${item.time}', '${item.type}', '${item.name}', '${item.comments}', ${item.battery});")

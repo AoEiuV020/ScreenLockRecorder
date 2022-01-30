@@ -3,6 +3,7 @@ package cc.aoeiuv020.actionrecorder.recorder
 import android.content.Intent
 import cc.aoeiuv020.actionrecorder.App
 import cc.aoeiuv020.actionrecorder.R
+import cc.aoeiuv020.actionrecorder.helper.BatteryHelper
 import cc.aoeiuv020.actionrecorder.sql.Action
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
@@ -32,7 +33,10 @@ object ActionRecorder : AnkoLogger {
         debug {
             "type = $type, action = $name"
         }
-        val action = Action(type = type.name, name = name, comments = comments)
+        val action = Action(
+            type = type.name, name = name, comments = comments,
+            battery = BatteryHelper.getElectricity(App.ctx)
+        )
         save(action)
     }
 
