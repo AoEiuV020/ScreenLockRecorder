@@ -1,8 +1,7 @@
 package cc.aoeiuv020.actionrecorder
 
 import android.app.Application
-import androidx.room.Room
-import cc.aoeiuv020.actionrecorder.sql.Database
+import cc.aoeiuv020.actionrecorder.sql.AppDatabase
 
 /**
  *
@@ -11,12 +10,12 @@ import cc.aoeiuv020.actionrecorder.sql.Database
 class App : Application() {
     companion object {
         lateinit var ctx: App
-        lateinit var database: Database
+        lateinit var appDatabase: AppDatabase
     }
 
     override fun onCreate() {
         super.onCreate()
         ctx = this
-        database = Room.databaseBuilder(ctx, Database::class.java, "recorder.db").build()
+        appDatabase = AppDatabase.getInstance(this)
     }
 }

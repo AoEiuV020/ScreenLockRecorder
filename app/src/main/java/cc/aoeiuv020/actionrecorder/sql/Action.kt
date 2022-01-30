@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
  *
  * Created by AoEiuV020 on 2017.11.12-13:13:51.
  */
-@Entity(tableName = "action", indices = arrayOf(Index(value = *arrayOf("id"))))
+@Entity(tableName = "action", indices = [Index(value = arrayOf("id"))])
 data class Action(
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "id")
@@ -21,5 +21,7 @@ data class Action(
         @ColumnInfo(name = "name")
         val name: String,
         @ColumnInfo(name = "comments")
-        val comments: String? = null
+        val comments: String? = null,
+        @ColumnInfo(name = "battery")
+        val battery: Int = -1
 )

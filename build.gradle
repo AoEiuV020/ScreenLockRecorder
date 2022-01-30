@@ -60,6 +60,7 @@ allprojects {
     version = version_name
     repositories {
         google()
+        mavenCentral()
         jcenter()
         maven { url "https://jitpack.io" }
         // 我自己的bintray仓库，库同步到jcenter审核前可以从这个仓库获取，

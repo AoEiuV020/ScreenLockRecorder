@@ -99,7 +99,7 @@ class DataActivity : AppCompatActivity() {
             val time2 = ignoreException { sdf.parse(tvTime2.text.toString()).time } ?: now
             val from = minOf(time1, time2)
             val to = maxOf(time1, time2)
-            val actions = App.database.actionDao().getAction(from, to)
+            val actions = App.appDatabase.actionDao().getAction(from, to)
             uiThread {
                 adapter.setData(actions)
                 recyclerView.post {
@@ -152,10 +152,13 @@ class DataActivity : AppCompatActivity() {
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val tvBattery: TextView = itemView.tvBattery
         private val tvTime: TextView = itemView.tvTime
         private val tvType: TextView = itemView.tvType
         private val tvName: TextView = itemView.tvName
         private val tvComments: TextView = itemView.tvComments
+
+        @SuppressLint("SetTextI18n")
         fun setData(action: Action) {
             tvTime.text = sdf.format(Date(action.time))
             tvType.text = action.type
@@ -165,6 +168,8 @@ class DataActivity : AppCompatActivity() {
             tvType.show(commentsIsNull)
             tvName.show(commentsIsNull)
             tvComments.show(!commentsIsNull)
+            tvBattery.text = "${action.battery}%"
+            tvBattery.show(action.battery != -1)
         }
     }
 }
